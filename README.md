@@ -1,6 +1,6 @@
-# Samostatná práce: instalace Zabbixu 8.0 LTS
+# Samostatná práce: Instalace Zabbixu 8.0 LTS
 
-![Titulní ilustrace: virtuální server, monitoring a databáze](Images/zabbix-8-cover.png)
+![Titulní ilustrace s logy Zabbix, Vagrant a Debian nad virtuálním serverem](Images/zabbix-8-cover.png)
 
 ## Cíl
 
@@ -13,7 +13,7 @@ Svůj studentský repozitář si vytvořte přes [odkaz k zadání v GitHub Clas
 - Vytvořte `Vagrantfile` pro Debian 13 (například box `bento/debian-13`) a VirtualBox. Nastavte alespoň 2 CPU a 2 GB RAM; při nedostatku paměti na hostiteli můžete po zdůvodnění v dokumentaci parametry upravit.
 - Nastavte hostname a přesměrování HTTP portu na `127.0.0.1` hostitelského počítače. SSH zpřístupněte přes `vagrant ssh`; případné vlastní přesměrování SSH omezte také na `127.0.0.1`.
 - Připojte jeden nebo více shell skriptů pomocí `config.vm.provision "shell"`. Skripty musí být součástí repozitáře a musí instalaci dokončit bez ručního spouštění příkazů ve VM.
-- Skript musí při chybě skončit nenulovým návratovým kódem. Opakované spuštění `vagrant provision` nesmí zničit existující databázi ani vyžadovat ruční opravu.
+- Skript musí při chybě skončit nenulovým návratovým kódem. Opakované spuštění `vagrant provision` nesmí zničit existující databázi ani vyžadovat ruční opravu. Opakovatelnost scriptu není primárně nutná je jen výhodou. Nebude známkováno.
 
 ## 2. Instalace Zabbixu
 
@@ -23,7 +23,7 @@ Ve skriptu proveďte tyto kroky:
 2. Nainstalujte MariaDB, vytvořte databázi `zabbix` s kódováním `utf8mb4` a uživatele s přístupem pouze k této databázi. Počáteční schéma a data importujte právě jednou.
 3. Nastavte připojení Zabbix serveru a webového rozhraní k databázi. Hesla nesmějí být zveřejněna v README, snímcích obrazovky ani v historii Git. Popište, jak se při spuštění předávají nebo vytvářejí.
 4. Spusťte a povolte služby MariaDB, Zabbix server, Zabbix Agent 2 a Apache. Agenta nastavte tak, aby monitoroval místní server.
-5. Dokončete prvotní nastavení webového rozhraní. V jeho záhlaví nastavte vlastní rozpoznatelný název serveru, například své jméno nebo školní identifikátor.
+5. Dokončete prvotní nastavení webového rozhraní. V jeho záhlaví nastavte vlastní rozpoznatelný název serveru, například své jméno nebo školní identifikátor. Instalujte do systému `zabbix.conf.php` a nakonfigurujte ho tak aby nebylo nutné ručně procházet PHP wizard.
 
 Při postupu vycházejte z [oficiální instalace Zabbixu](https://www.zabbix.com/download), [poznámek k balíčkům](https://www.zabbix.com/documentation/8.0/en/manual/installation/install/packages) a [požadavků Zabbixu 8.0](https://www.zabbix.com/documentation/8.0/en/manual/installation/requirements). Adresu a název instalačního balíčku repozitáře ověřte při práci podle aktuálního oficiálního návodu.
 
@@ -32,7 +32,7 @@ Při postupu vycházejte z [oficiální instalace Zabbixu](https://www.zabbix.co
 - Otevřete webové rozhraní z hostitelského počítače. Uveďte přesnou adresu a port ve svém README.
 - Přidejte místní Debian 13 jako hosta a přiřaďte vhodnou šablonu pro Zabbix Agent 2. V **Latest data** ukažte aktuální hodnoty z agenta.
 - Importujte hosta `sposdk.cz` z některého souboru v adresáři [`Zabbix/export`](Zabbix/export/) a ověřte v **Latest data** hodnoty pro TLS/SSL certifikát `https://sposdk.cz`. Pokud import staršího exportu vyžaduje úpravu pro Zabbix 8.0, změnu popište a upravený export odevzdejte.
-- Ověřte běh služeb příkazem `systemctl status` nebo `systemctl is-active`. Doložte také, že `vagrant provision` projde opakovaně.
+- Ověřte běh služeb příkazem `systemctl status` nebo `systemctl is-active`.
 
 ## 4. Odevzdání
 
@@ -42,6 +42,7 @@ Ve svém GitHub Classroom repozitáři odevzdejte:
 - vlastní `README.md` s předpoklady, příkazy pro spuštění (`vagrant up`, `vagrant ssh`, `vagrant provision`), adresou webu, postupem ověření a popisem řešení potíží, na které jste narazili;
 - snímky obrazovky v adresáři `Images/`: web s vaším názvem serveru, dostupný místní host a jeho aktuální data, monitoring certifikátu `sposdk.cz` a ověření běhu služeb;
 - odkaz na repozitář v Teams.
+- soubory zadání odstraňte a ponechte jen Vaši práci.
 
 Do repozitáře neukládejte `.vagrant/`, virtuální disk, hesla ani soubory s tajnými údaji. Před odevzdáním ověřte projekt z čistého klonu nebo po `vagrant destroy` a novém `vagrant up`.
 
